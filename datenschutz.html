@@ -14,12 +14,12 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Finance OS" />
-    <script src="js/shared/translations.js?v=2026100840"></script>
-    <script src="js/shared/i18n.js?v=2026100840"></script>
-    <script src="js/shared/update.js?v=2026100840" defer></script>
-    <script src="js/shared/site.js?v=2026100840"></script>
-    <link rel="stylesheet" href="css/shared/base.css?v=2026100840" />
-    <link rel="stylesheet" href="css/pages/login.css?v=2026100840" />
+    <script src="js/shared/translations.js?v=2026100841"></script>
+    <script src="js/shared/i18n.js?v=2026100841"></script>
+    <script src="js/shared/update.js?v=2026100841" defer></script>
+    <script src="js/shared/site.js?v=2026100841"></script>
+    <link rel="stylesheet" href="css/shared/base.css?v=2026100841" />
+    <link rel="stylesheet" href="css/pages/login.css?v=2026100841" />
   </head>
   <body>
     <main class="legal-page">
@@ -49,83 +49,55 @@
           E-Mail: <a href="mailto:os.finance.tracker@gmail.com" translate="no">os.finance.tracker@gmail.com</a><br />
           oder über das <a href="kontakt.html">Kontaktformular</a>
         </p>
-        <p>
-          Finance OS ist ein privates, nicht kommerzielles Projekt. Es gibt keine Werbung und
-          keinen Verkauf von Daten.
-        </p>
+        <p>Finance OS ist ein privates, kostenloses und nicht kommerzielles Projekt. Es gibt keine Werbung, und Personendaten werden nicht verkauft.</p>
+        <p>Diese Datenschutzerklärung informiert dich gemäss Art. 19 DSG darüber, welche Personendaten bearbeitet werden.</p>
       </section>
 
       <section class="card">
-        <h2>2. Welche Daten gespeichert werden</h2>
+        <h2>2. Welche Daten bearbeitet werden</h2>
         <ul>
-          <li><b>Konto:</b> E-Mail-Adresse, Benutzername, Zeitpunkt der Registrierung und wann du den Nutzungsbedingungen und dieser Datenschutzerklärung zugestimmt hast (mit Version).</li>
-          <li>
-            <b>Passwort:</b> nur als nicht umkehrbarer Hash (BCrypt). Das Passwort selbst wird nie
-            gespeichert und ist für niemanden einsehbar.
-          </li>
-          <li>
-            <b>Finanzdaten:</b> deine Einträge in Finance OS (Lohn, Ausgaben, Sparbeträge,
-            Daueraufträge, Kategorien, Einstellungen). Sie werden verschlüsselt (AES-256) gespeichert.
-          </li>
-          <li>
-            <b>Login-Protokoll:</b> Zeitpunkt und Art von Registrierung, Login, Fehlversuchen,
-            Sperren und Logout sowie der verwendete Browser (User-Agent).
-          </li>
-          <li>
-            <b>Einmal-Links:</b> Für E-Mail-Bestätigung, Passwort zurücksetzen und E-Mail-Änderung
-            wird kurzzeitig ein Link gespeichert – nur als nicht umkehrbarer Hash.
-          </li>
-          <li>
-            <b>Kontaktformular:</b> Name, E-Mail-Adresse, Betreff und Nachricht. Sie werden per
-            E-Mail an den Verantwortlichen geschickt, nur zum Beantworten deiner Anfrage verwendet und
-            nicht in der Datenbank gespeichert.
-          </li>
+          <li><b>Konto:</b> E-Mail-Adresse, Benutzername, Zeitpunkt der Registrierung sowie Zeitpunkt und Version deiner Zustimmung zu den Nutzungsbedingungen und dieser Datenschutzerklärung.</li>
+          <li><b>Passwort:</b> nur als nicht umkehrbarer Hash (BCrypt). Das Passwort selbst wird nie gespeichert und ist für niemanden einsehbar.</li>
+          <li><b>Finanzdaten:</b> deine Einträge in Finance OS (Lohn, Pauschalen, Ausgaben, Sparbeträge, Daueraufträge, Kategorien und Einstellungen). Sie werden verschlüsselt (AES-256) gespeichert.</li>
+          <li><b>Login-Protokoll:</b> Zeitpunkt und Art von Registrierung, Login, Fehlversuchen, Sperren und Logout sowie der verwendete Browser (User-Agent). Deine IP-Adresse wird darin nicht gespeichert.</li>
+          <li><b>Einmal-Links:</b> Für E-Mail-Bestätigung, Passwort zurücksetzen, E-Mail-Änderung und Konto löschen wird kurzzeitig ein Link gespeichert – nur als nicht umkehrbarer Hash.</li>
+          <li><b>Kontaktformular:</b> Name, E-Mail-Adresse, Betreff und Nachricht. Sie werden per E-Mail an den Betreiber geschickt, nur zum Beantworten deiner Anfrage verwendet und nicht in der Datenbank gespeichert.</li>
+          <li><b>Technische Verbindungsdaten:</b> Beim Aufruf von Finance OS verarbeiten die Hosting-Dienste technisch notwendige Daten wie deine IP-Adresse und führen eigene Serverprotokolle. Der Server von Finance OS hält deine IP-Adresse zudem im Arbeitsspeicher, um Missbrauch des Kontaktformulars zu bremsen. Sie wird nicht in der Datenbank gespeichert und beim Neustart des Servers verworfen.</li>
         </ul>
       </section>
 
       <section class="card">
         <h2>3. Zweck</h2>
-        <p>
-          Die Daten werden ausschliesslich bearbeitet, um dir Finance OS mit eigenem Konto
-          bereitzustellen. Das Login-Protokoll dient dem Schutz deines Kontos, z.&nbsp;B. um
-          Passwort-Rateversuche zu erkennen und zu blockieren.
-        </p>
-        <p>
-          Deine E-Mail-Adresse wird nur für Konto-E-Mails verwendet: Bestätigung der Adresse,
-          Passwort zurücksetzen und Sicherheitshinweise (z.&nbsp;B. wenn dein Passwort geändert wurde).
-          Es gibt keinen Newsletter und keine Werbung.
-        </p>
+        <p>Deine Daten werden nur für den Betrieb und die Sicherheit von Finance OS bearbeitet:</p>
+        <ul>
+          <li>Registrierung und Verwaltung deines Kontos.</li>
+          <li>Login und Schutz deines Kontos, zum Beispiel um Passwort-Rateversuche zu erkennen und zu blockieren.</li>
+          <li>Speichern und Anzeigen deiner Finanzdaten sowie die Berechnungen und Auswertungen.</li>
+          <li>Datenexport und Kontolöschung.</li>
+          <li>Notwendige Konto-E-Mails: Bestätigung der Adresse, Passwort zurücksetzen, Konto löschen und Sicherheitshinweise.</li>
+          <li>Beantworten deiner Anfragen über das Kontaktformular.</li>
+        </ul>
+        <p>Es gibt keinen Newsletter, keine Werbung und keine Auswertung deiner Finanzdaten für andere Zwecke. Die Bearbeitung richtet sich nach den Grundsätzen von Art. 6 DSG.</p>
       </section>
 
       <section class="card">
-        <h2>4. Speicherort und Weitergabe</h2>
-        <p>Für den Betrieb von Finance OS werden folgende Anbieter eingesetzt (Auftragsbearbeiter):</p>
+        <h2>4. Dienstleister und Bekanntgabe ins Ausland</h2>
+        <p>Für den Betrieb setzt Finance OS folgende Dienstleister ein (Auftragsbearbeiter nach Art. 9 DSG):</p>
         <ul>
-          <li>
-            <b>Website:</b> GitHub Pages (GitHub Inc., USA). Beim Aufruf der Seiten verarbeitet GitHub
-            technisch notwendige Daten wie deine IP-Adresse.
-          </li>
-          <li><b>Server:</b> Render (Render Services Inc., USA), Rechenzentrum in Frankfurt (Deutschland).</li>
-          <li><b>Datenbank:</b> Aiven (Aiven Oy, Finnland).</li>
+          <li><b>Website:</b> GitHub Pages (GitHub Inc., USA).</li>
+          <li><b>Server:</b> Render (Render Services Inc., USA), Rechenzentrum in Frankfurt, Deutschland.</li>
+          <li><b>Datenbank:</b> Aiven (Aiven Oy, Finnland). Die Datenbank und ihre Sicherungskopien liegen auf Servern von DigitalOcean (DigitalOcean LLC, USA) in Amsterdam, Niederlande.</li>
           <li><b>E-Mail-Versand:</b> Brevo (Sendinblue SAS, Frankreich).</li>
         </ul>
-        <p>
-          Deine Finanzdaten werden verschlüsselt, bevor sie in der Datenbank gespeichert werden. Daten
-          werden nur an diese Anbieter übermittelt, soweit es für den Betrieb nötig ist, und
-          <b>nie verkauft</b>. Anbieter in den USA sind vertraglich zu einem angemessenen Datenschutz
-          verpflichtet (Standardvertragsklauseln). Es werden keine Analyse-, Tracking- oder
-          Werbedienste eingesetzt.
-        </p>
+        <p>Diese Dienstleister erhalten nur die Daten, die sie für ihre Aufgabe brauchen. Deine Finanzdaten sind bereits verschlüsselt, bevor sie in der Datenbank gespeichert werden.</p>
+        <p>Deutschland, die Niederlande, Finnland und Frankreich haben nach dem Schweizer Bundesrat ein angemessenes Datenschutzniveau. Bei Anbietern mit Sitz in den USA (GitHub, Render, DigitalOcean) stützt sich die Bekanntgabe auf vertragliche Garantien, insbesondere Standarddatenschutzklauseln, oder auf eine Zertifizierung nach dem Swiss-U.S. Data Privacy Framework (Art. 16 DSG).</p>
       </section>
 
       <section class="card">
         <h2>5. Cookies und lokale Speicherung</h2>
-        <p>
-          Finance OS verwendet <b>keine Tracking-Cookies</b>. Damit du eingeloggt bleibst, wird ein
-          Login-Schlüssel gespeichert: auf dieser Website im Speicher deines Browsers (localStorage),
-          bei einer eigenen Installation als technisch notwendiges Cookie (<code>ft_token</code>). Er ist
-          2 Stunden gültig und wird beim Logout gelöscht.
-        </p>
+        <p>Finance OS verwendet keine Tracking- oder Werbe-Cookies und keine Analyse-Dienste.</p>
+        <p>Damit du eingeloggt bleibst, wird ein Login-Schlüssel gespeichert: auf dieser Website im Speicher deines Browsers (localStorage), bei einer eigenen Installation als technisch notwendiges Cookie (ft_token). Er ist 2 Stunden gültig.</p>
+        <p>Beim Logout wird der Schlüssel aus deinem Browser gelöscht und auf dem Server ungültig gemacht – auf allen Geräten. Dasselbe passiert, wenn du dein Passwort oder deine E-Mail-Adresse änderst.</p>
         <p>
           Zusätzlich merkt sich dein Browser Einstellungen wie Sprache, Hell/Dunkel und welche
           Bereiche aufgeklappt sind. Diese Angaben bleiben auf deinem Gerät.
@@ -133,49 +105,46 @@
       </section>
 
       <section class="card">
-        <h2>6. Aufbewahrung</h2>
+        <h2>6. Aufbewahrung und Löschung</h2>
         <ul>
-          <li>Konto und Finanzdaten: bis du dein Konto löschst.</li>
-          <li>Login-Protokoll: wird nach <b>90 Tagen</b> automatisch gelöscht.</li>
-          <li>Nachrichten aus dem Kontaktformular: bis deine Anfrage erledigt ist.</li>
-          <li>
-            Einmal-Links: gültig 30 Minuten (Passwort) bzw. 24 Stunden (E-Mail), danach automatisch
-            gelöscht.
-          </li>
-          <li>
-            Konto löschen: Nach der Bestätigung per E-Mail-Link (1 Stunde gültig) werden Konto,
-            Finanzdaten und Login-Protokoll sofort und endgültig gelöscht.
-          </li>
+          <li><b>Konto und Finanzdaten:</b> bis du dein Konto löschst.</li>
+          <li><b>Login-Protokoll:</b> wird nach 90 Tagen automatisch gelöscht.</li>
+          <li><b>Einmal-Links:</b> gültig 30 Minuten (Passwort zurücksetzen), 1 Stunde (Konto löschen) bzw. 24 Stunden (E-Mail bestätigen oder ändern). Abgelaufene Links werden automatisch gelöscht.</li>
+          <li><b>Kontaktanfragen:</b> bis deine Anfrage erledigt ist.</li>
+          <li><b>Konto löschen:</b> Nach der Bestätigung per E-Mail-Link werden Konto, Finanzdaten, Login-Protokoll und offene Links sofort aus der Datenbank gelöscht.</li>
+          <li><b>Sicherungskopien:</b> Aiven erstellt täglich eine Sicherungskopie der Datenbank und bewahrt sie nur wenige Tage auf (derzeit etwa 2 bis 3 Tage). Danach sind gelöschte Daten auch aus den Sicherungskopien verschwunden.</li>
         </ul>
       </section>
 
       <section class="card">
         <h2>7. Datensicherheit</h2>
-        <p>
-          Passwörter werden gehasht, Finanzdaten verschlüsselt gespeichert. Der Zugriff ist nur mit
-          gültigem Login möglich, und jede Person sieht ausschliesslich ihre eigenen Daten. Nach
-          mehreren falschen Passwörtern wird das Login vorübergehend gesperrt.
-        </p>
+        <p>Finance OS schützt deine Daten mit technischen und organisatorischen Massnahmen nach Art. 8 DSG:</p>
+        <ul>
+          <li>Passwörter werden mit BCrypt gehasht.</li>
+          <li>Finanzdaten werden mit AES-256 verschlüsselt gespeichert.</li>
+          <li>Geschützte Funktionen sind nur mit gültigem Login erreichbar, und jede Person sieht ausschliesslich ihre eigenen Daten.</li>
+          <li>Nach 5 falschen Passwörtern wird das Login für 15 Minuten gesperrt.</li>
+          <li>Links in E-Mails sind nur kurz gültig und nur einmal verwendbar.</li>
+          <li>Die Verbindung zwischen Browser und Server ist verschlüsselt (HTTPS).</li>
+        </ul>
         <p>Trotz dieser Massnahmen kann keine absolute Sicherheit garantiert werden. Für Schäden durch unbefugte Zugriffe Dritter, zum Beispiel Hackerangriffe, wird – soweit gesetzlich zulässig – nicht gehaftet (siehe <a href="nutzungsbedingungen.html">Nutzungsbedingungen</a>, Punkt 6).</p>
+        <p>Zwingende gesetzliche Ansprüche bei Datenschutz- oder Sicherheitsverletzungen bleiben vorbehalten.</p>
       </section>
 
       <section class="card">
-        <h2>8. Deine Rechte</h2>
+        <h2>8. Verletzungen der Datensicherheit</h2>
+        <p>Bei einem Sicherheitsvorfall prüft der Betreiber sofort, was passiert ist und welche Folgen er für dich haben kann.</p>
+        <p>Führt ein Vorfall voraussichtlich zu einem hohen Risiko für dich, wird er so rasch wie möglich dem Eidgenössischen Datenschutz- und Öffentlichkeitsbeauftragten (EDÖB) gemeldet (Art. 24 DSG). Du wirst informiert, wenn es zu deinem Schutz nötig ist oder der EDÖB es verlangt.</p>
+      </section>
+
+      <section class="card">
+        <h2>9. Deine Rechte</h2>
         <p>Nach dem DSG hast du insbesondere folgende Rechte:</p>
         <ul>
-          <li>
-            <b>Auskunft und Datenherausgabe</b> (Art. 25 und 28 DSG): In Finance OS unter
-            <i>Einstellungen → Profil → Meine Daten herunterladen</i> erhältst du
-            alle über dich gespeicherten Daten als Datei.
-          </li>
-          <li>
-            <b>Berichtigung:</b> Finanzdaten, Benutzername, E-Mail-Adresse und Passwort kannst du
-            jederzeit selbst unter <i>Einstellungen → Profil → Mein Konto</i> ändern.
-          </li>
-          <li>
-            <b>Löschung:</b> Unter <i>Einstellungen → Profil → Konto löschen</i>
-            löschst du dein Konto mit allen Daten.
-          </li>
+          <li><b>Auskunft (Art. 25 DSG):</b> Du kannst Auskunft darüber verlangen, welche Personendaten über dich bearbeitet werden.</li>
+          <li><b>Datenherausgabe (Art. 28 DSG):</b> Unter Einstellungen → Profil → Meine Daten herunterladen erhältst du alle in Finance OS über dich gespeicherten Daten (Konto, Finanzdaten und Login-Protokoll) als Datei.</li>
+          <li><b>Berichtigung:</b> Finanzdaten, Benutzername, E-Mail-Adresse und Passwort kannst du jederzeit selbst unter Einstellungen → Profil → Mein Konto ändern.</li>
+          <li><b>Löschung:</b> Unter Einstellungen → Profil → Konto löschen löschst du dein Konto mit allen Daten.</li>
         </ul>
         <p>
           Für weitere Anliegen kannst du dich an die oben genannte Kontaktadresse wenden. Du hast
@@ -184,6 +153,16 @@
           zu beschweren.
         </p>
       </section>
+
+      <section class="card">
+        <h2>10. Internationale Nutzung</h2>
+        <p>Finance OS richtet sich an Nutzerinnen und Nutzer in der Schweiz. Die Website ist weltweit erreichbar, und eine Registrierung ist unabhängig vom Wohnort möglich. Zwingend anwendbares ausländisches Datenschutzrecht bleibt vorbehalten.</p>
+      </section>
+
+      <section class="card">
+        <h2>11. Änderungen</h2>
+        <p>Diese Datenschutzerklärung wird angepasst, wenn sich die Datenbearbeitung, die Technik oder das Gesetz ändern. Über wesentliche Änderungen wirst du per E-Mail informiert. Es gilt die jeweils aktuelle Fassung auf dieser Website.</p>
+      </section>
       <p class="auth-links legal-links">
         <a href="impressum.html">Impressum</a>
         <a href="nutzungsbedingungen.html">Nutzungsbedingungen</a>
@@ -191,6 +170,6 @@
         <a href="kontakt.html">Kontakt</a>
       </p>
     </main>
-    <script src="js/shared/back.js?v=2026100840"></script>
+    <script src="js/shared/back.js?v=2026100841"></script>
   </body>
 </html>
