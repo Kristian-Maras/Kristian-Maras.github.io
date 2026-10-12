@@ -8,6 +8,114 @@
   align-items: center;
 }
 
+/* Period: from / until which pay month, plus quick choices */
+.future-range {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 16px;
+  padding: 10px 12px 10px 14px;
+  border-radius: 14px;
+  background: var(--soft);
+}
+
+.future-range-pick {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.future-range-icon {
+  flex: none;
+  fill: none;
+  stroke: var(--brand-text);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+.future-range-field {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+  padding: 5px 10px;
+  border-radius: 10px;
+  background: var(--panel);
+  box-shadow: var(--shadow-small);
+  cursor: pointer;
+}
+
+.future-range-field small {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.future-range-field select {
+  width: auto;
+  min-width: 0;
+  max-width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 0 18px 0 0;
+  border: 0;
+  background-color: transparent;
+  background-position: calc(100% - 7px) 55%, calc(100% - 2px) 55%;
+  box-shadow: none;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.future-range-field:focus-within {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+.future-range-field select:focus {
+  outline: none;
+}
+
+.future-range-arrow {
+  color: var(--muted);
+}
+
+.future-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.future-presets button {
+  min-height: 0;
+  padding: 6px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 99px;
+  background: transparent;
+  color: var(--label);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.future-presets button:hover {
+  border-color: var(--brand-text);
+  color: var(--brand-text);
+}
+
+.future-presets button[aria-pressed="true"] {
+  border-color: var(--brand-soft);
+  background: var(--brand-soft);
+  color: var(--brand-text);
+  font-weight: 600;
+}
+
+.save-year h2 small {
+  color: var(--muted);
+  font-weight: 400;
+}
+
 .future-total-sum p {
   margin: 0;
   color: var(--label);
@@ -157,6 +265,18 @@
   .future-total {
     grid-template-columns: 1fr;
     gap: 18px;
+  }
+
+  .future-range-pick {
+    width: 100%;
+  }
+
+  .future-range-field {
+    flex: 1 1 0;
+  }
+
+  .future-range-field select {
+    width: 100%;
   }
 
   .future-total-sum strong {

@@ -77,3 +77,8 @@ td.money.not-counted {
 .entry-table td.entry-meta {
   display: none;
 }
+
+/* Standing order form: "Aufs Sparkonto (↗)" fits into the kind field */
+.field:has(> #recKind) {
+  min-width: 200px;
+}

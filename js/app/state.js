@@ -110,9 +110,14 @@ const DEFAULT_ALLOWANCE_NAMES = {
 };
 const DEFAULT_ACCOUNT_NAMES = { main: "Lohnkonto", save: "Sparkonto" };
 const DEFAULT_LISTS = {
-  categories: ["Essen", "Freizeit", "Fahrzeug", "Kleidung", "Abos", "Schule", "Technik", "Sport", "Ferien", "Sonstiges"],
+  categories: ["Essen & Trinken", "Freizeit", "Fahrzeug", "Kleidung", "Sport"],
   incomeCategories: ["Nebenjob", "Geschenk", "Rückzahlung", "Sonstiges"],
-  payments: ["Karte", "TWINT", "Bar", "Überweisung"],
+  payments: ["Karte / TWINT", "Bar", "Überweisung"],
+};
+// Default names of older accounts: they still follow a language change, but new accounts no longer get them.
+const OLDER_DEFAULT_LISTS = {
+  categories: ["Essen", "Abos", "Schule", "Technik", "Ferien", "Sonstiges"],
+  payments: ["Karte", "TWINT"],
 };
 // Default names that were renamed later. Accounts that still use the old default name (in any
 // language) get the new one, together with their entries; names the user typed in stay as they are.
@@ -330,7 +335,7 @@ function localizeDefaultNames() {
 
   for (const [type, defaults] of Object.entries(DEFAULT_LISTS)) {
     const list = state[type];
-    defaults.forEach((germanName) => {
+    [...defaults, ...(OLDER_DEFAULT_LISTS[type] || [])].forEach((germanName) => {
       const translate = localized(germanName);
       list.forEach((name, index) => {
         const next = translate(name);

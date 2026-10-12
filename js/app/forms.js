@@ -43,8 +43,6 @@ function resetForm(form, keep = []) {
 
 function finishEdit(form, keep = []) {
   editing[form] = null;
-  // A kind that can no longer be chosen (old saving orders) only stays while it is edited.
-  [...$("recKind").options].filter((option) => option.value === "saving").forEach((option) => option.remove());
   resetForm(form, keep);
   fillSelects();
   saveDrafts(form);
@@ -130,7 +128,7 @@ function saveRecurring() {
   if ($("recEnd").value.trim() && !end) return notify("Bitte ein gültiges Enddatum eingeben.");
   if (end && end < start) return notify("Das Enddatum darf nicht vor dem Startdatum liegen.");
   const interval = INTERVALS[$("recInterval").value] ? $("recInterval").value : "monthly";
-  // Saving orders are made in the settings; existing ones can still be edited.
+  // Expense, income or a transfer to a savings account
   const kind = [...$("recKind").options].some((option) => option.value === $("recKind").value) ? $("recKind").value : "expense";
   saveRecord("recurring", { kind, name, amount, interval, start, end, cat: $("recCat").value });
 }

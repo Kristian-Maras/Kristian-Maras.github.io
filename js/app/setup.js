@@ -2,8 +2,9 @@
 // The answers are written straight into the settings and standing orders (applySetup in js/app/navigation.js),
 // so they can be changed there later. The app behind it is blurred and cannot be used meanwhile.
 //
-// Setup.open({ categories, onFinish }) shows it; onFinish(answers) receives the answers.
-// Steps 1–7 must be answered; step 8 (subscriptions) can be skipped.
+// Setup.open({ lists, onFinish }) shows it; onFinish(answers) receives the answers.
+// lists: { categories, incomeCategories, payments } – the starting lists, edited in the categories step.
+// The subscriptions step can be skipped; all other steps must be answered.
 
 const Setup = (() => {
   const t = I18N.t;
@@ -15,7 +16,21 @@ const Setup = (() => {
   let answers;
   let step;
   let onFinish;
-  let categories = [];
+  let startLists = {};
+
+  // Categories step: the three lists that can be edited before the app starts
+  const LIST_GROUPS = [
+    ["categories", "Ausgaben"],
+    ["incomeCategories", "Einnahmen"],
+    ["payments", "Zahlungsarten"],
+  ];
+  const sameName = (a, b) => a.trim().toLowerCase() === b.trim().toLowerCase();
+  function addToList(list, name) {
+    const clean = name.trim().slice(0, 40);
+    if (!clean || answers.lists[list].some((item) => sameName(item, clean))) return false;
+    answers.lists[list].push(clean);
+    return true;
+  }
 
   const $ = (id) => document.getElementById(id);
   const escapeHTML = (value) =>
@@ -63,6 +78,7 @@ const Setup = (() => {
       orders: [],
       trackFrom: null, // "YYYY-MM"; chosen after the payday
       trackYear: null,
+      lists: Object.fromEntries(LIST_GROUPS.map(([list]) => [list, [...(startLists[list] || [])]])),
     };
   }
 
@@ -243,6 +259,39 @@ const Setup = (() => {
       },
     },
     {
+      title: () => t("Lege deine Kategorien fest"),
+      note: () => t("Tippe auf einen Namen, um ihn zu ändern. Später kannst du alles in den Einstellungen anpassen."),
+      html: () =>
+        LIST_GROUPS.map(([list, title]) => {
+          const items = answers.lists[list];
+          return `<section class="setup-list">
+            <h3>${t(title)} <span>${items.length}</span></h3>
+            <div class="setup-tags">
+              ${items
+                .map(
+                  (name, i) => `<span class="setup-tag">
+                    <input data-tag-list="${list}" data-tag="${i}" value="${escapeHTML(name)}" size="${Math.max(3, name.length)}" maxlength="40" aria-label="${t("{name} umbenennen", { name: escapeHTML(name) })}">
+                    <button type="button" data-setup="remove-tag" data-list="${list}" data-index="${i}" aria-label="${t("{name} entfernen", { name: escapeHTML(name) })}">×</button>
+                  </span>`,
+                )
+                .join("")}
+              <input class="setup-tag-new" data-tag-new="${list}" maxlength="40" placeholder="${t("Eigene hinzufügen …")}" aria-label="${t("Eigene hinzufügen …")} – ${t(title)}">
+            </div>
+          </section>`;
+        }).join(""),
+      check: () => {
+        // A name typed into "Eigene hinzufügen" without Enter still counts
+        document.querySelectorAll("#setupBody [data-tag-new]").forEach((field) => addToList(field.dataset.tagNew, field.value));
+        for (const [list, title] of LIST_GROUPS) {
+          const items = answers.lists[list].map((name) => name.trim()).filter(Boolean);
+          if (!items.length) return t("Behalte mindestens einen Eintrag bei {list}.", { list: t(title) });
+          if (items.some((name, i) => items.findIndex((other) => sameName(other, name)) !== i)) return t("Bei {list} kommt ein Name doppelt vor.", { list: t(title) });
+          answers.lists[list] = items;
+        }
+        return "";
+      },
+    },
+    {
       optional: true,
       title: () => t("Hast du Abos oder feste Zahlungen?"),
       note: () => t("Zum Beispiel Handy-Abo, Streaming, Fitness oder Halbtax. Sie werden als Daueraufträge eingetragen."),
@@ -261,7 +310,7 @@ const Setup = (() => {
             </div>
             <div class="setup-row">
               <label class="field"><span>${t("Kategorie")}</span>
-                <select data-order="${i}" data-key="cat">${categories.map((name) => `<option ${name === order.cat ? "selected" : ""}>${escapeHTML(name)}</option>`).join("")}</select>
+                <select data-order="${i}" data-key="cat">${answers.lists.categories.map((name) => `<option ${name === order.cat ? "selected" : ""}>${escapeHTML(name)}</option>`).join("")}</select>
               </label>
               <button type="button" class="danger setup-remove" data-setup="remove-order" data-index="${i}">${t("Entfernen")}</button>
             </div>
@@ -363,6 +412,15 @@ const Setup = (() => {
     // "jährlich" shows the month choice
     if ((data.allowancePer || data.own === "per") && event.type === "change") render();
     if (data.order) answers.orders[Number(data.order)][data.key] = field.value;
+    // Categories step: renaming happens while typing; an emptied name is removed when leaving the field
+    if (data.tagList) {
+      answers.lists[data.tagList][Number(data.tag)] = field.value;
+      field.size = Math.max(3, field.value.length);
+      if (event.type === "change" && !field.value.trim()) {
+        answers.lists[data.tagList].splice(Number(data.tag), 1);
+        render();
+      }
+    }
     if (data.allowanceOn && event.type === "change") {
       answers.allowanceItems[Number(data.allowanceOn)].on = field.checked;
       render();
@@ -393,9 +451,17 @@ const Setup = (() => {
       return;
     }
     if (action === "add-order") {
+      const categories = answers.lists.categories;
       answers.orders.push({ name: "", amount: "", interval: "monthly", start: todayISO(), cat: categories.find((name) => /abo/i.test(name)) || categories[0] || "" });
       render();
       $("setupBody").querySelector(`[data-order="${answers.orders.length - 1}"][data-key="name"]`)?.focus();
+    }
+    if (action === "remove-tag") {
+      const button = event.target.closest("[data-setup]");
+      answers.lists[button.dataset.list].splice(Number(button.dataset.index), 1);
+      render();
+      showError("");
+      return;
     }
     if (action === "remove-order") {
       answers.orders.splice(Number(event.target.closest("[data-setup]").dataset.index), 1);
@@ -423,6 +489,20 @@ const Setup = (() => {
     });
     // Enter in a field means "next"; Escape does not close the setup.
     card.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" && event.target.dataset.tagNew) {
+        // "Eigene hinzufügen": Enter adds the name and keeps the field ready for the next one
+        event.preventDefault();
+        const list = event.target.dataset.tagNew;
+        addToList(list, event.target.value);
+        render();
+        $("setupBody").querySelector(`[data-tag-new="${list}"]`)?.focus();
+        return;
+      }
+      if (event.key === "Enter" && event.target.dataset.tagList) {
+        event.preventDefault();
+        event.target.blur();
+        return;
+      }
       if (event.key === "Enter" && event.target.tagName === "INPUT") {
         event.preventDefault();
         next();
@@ -432,7 +512,7 @@ const Setup = (() => {
 
   function open(options = {}) {
     onFinish = options.onFinish;
-    categories = options.categories || [];
+    startLists = options.lists || {};
     answers = freshAnswers();
     step = 0;
     wire();

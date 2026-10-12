@@ -116,3 +116,41 @@ test("a yearly allowance comes in the chosen pay month; savings standing orders 
   await expect(first).toContainText("Sparplan");
   await expect(first.locator(".save-yearly").first()).toContainText("März");
 });
+
+test("Sparzukunft starts with 'Tracken ab', shows the period and the period can be chosen", async ({ page, request }) => {
+  await createUser(page, request);
+  await skipTour(page);
+  await setUp(page);
+  // Tracking starts in the 10th pay month of the apprenticeship
+  const { from, end, thirteenthSkipped } = await page.evaluate(() => {
+    const first = firstMonth();
+    state.trackFrom = addMonths(first, 9);
+    render();
+    const skipped = Array.from({ length: 9 }, (_, k) => addMonths(first, k)).some((month) => month.endsWith("-12"));
+    return { from: monthName(state.trackFrom), end: monthName(addMonths(first, state.years * 12 - 1)), thirteenthSkipped: skipped };
+  });
+  await goTo(page, "future");
+  await expect(page.locator("#futureTotalLabel")).toHaveText(`Von ${from} bis ${end} sparst du`);
+  await expect(page.locator("#saveOverview .save-year").first().locator("h2")).toContainText("3 von 12 Monaten");
+  // 10’850 minus 9 months of 150 and, if it fell into them, the 13th (650)
+  const expected = 10850 - 9 * 150 - (thirteenthSkipped ? 650 : 0);
+  await expect(page.locator("#futureTotal")).toHaveText(await page.evaluate((n) => chf(n), expected));
+  await expect(page.locator("#futureTotalNote")).toContainText("in 39 Lohnmonaten");
+
+  // Only the 2nd apprenticeship year
+  const [secondStart, secondEnd] = await page.evaluate(() => [addMonths(firstMonth(), 12), addMonths(firstMonth(), 23)]);
+  await page.selectOption("#futureFrom", secondStart);
+  await page.selectOption("#futureTo", secondEnd);
+  await expect(page.locator("#futureYears li")).toHaveCount(1);
+  await expect(page.locator("#futureTotal")).toHaveText("CHF 2’400.00");
+  // "Bis" only offers months from "Von" on
+  const before = await page.locator(`#futureTo option[value="${await page.evaluate(() => addMonths(firstMonth(), 11))}"]`).count();
+  expect(before).toBe(0);
+
+  // Quick choices
+  await page.click('[data-action="future-preset"][data-preset="all"]');
+  await expect(page.locator("#futureTotal")).toHaveText("CHF 10’850.00");
+  await expect(page.locator('[data-preset="all"]')).toHaveAttribute("aria-pressed", "true");
+  await page.click('[data-action="future-preset"][data-preset="track"]');
+  await expect(page.locator("#futureTotalLabel")).toHaveText(`Von ${from} bis ${end} sparst du`);
+});

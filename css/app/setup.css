@@ -232,6 +232,93 @@ body.setup-open .app {
   justify-self: start;
 }
 
+/* Categories step: three lists of editable names and a field for own names */
+.setup-list + .setup-list {
+  margin-top: 16px;
+}
+
+.setup-list h3 {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.setup-list h3 span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.setup-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.setup-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 4px 2px 2px;
+  border-radius: 99px;
+  background: var(--soft);
+}
+
+.setup-tag input {
+  field-sizing: content; /* as wide as the name; older browsers use the size attribute */
+  width: auto;
+  min-width: 4ch;
+  max-width: 220px;
+  height: 28px;
+  min-height: 0;
+  padding: 0 4px 0 10px;
+  border: 1px solid transparent;
+  border-radius: 99px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 14px;
+  cursor: text;
+}
+
+.setup-tag input:hover {
+  border-color: var(--line-strong);
+}
+
+.setup-tag input:focus {
+  border-color: var(--brand);
+  background: var(--field);
+  outline: none;
+}
+
+.setup-tag button {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 99px;
+  background: var(--panel);
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1;
+}
+
+.setup-tag button:hover {
+  color: var(--red);
+}
+
+.setup-tag-new {
+  width: 170px;
+  height: 32px;
+  min-height: 0;
+  padding: 0 12px;
+  border-radius: 99px;
+  font-size: 14px;
+}
+
 .setup-summary {
   display: grid;
   margin: 0;

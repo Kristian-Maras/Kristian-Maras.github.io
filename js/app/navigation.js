@@ -80,7 +80,10 @@ function toggleTheme() {
 const needsSetup = () => !state.setupDone && !state.salaries.some((amount) => Number(amount) > 0);
 
 function openSetup() {
-  Setup.open({ categories: state.categories, onFinish: applySetup });
+  Setup.open({
+    lists: { categories: state.categories, incomeCategories: state.incomeCategories, payments: state.payments },
+    onFinish: applySetup,
+  });
 }
 
 function applySetup(answers) {
@@ -109,6 +112,11 @@ function applySetup(answers) {
       per: own.per,
       month: own.per === "year" ? own.month || pad2(answers.startMonth) : undefined,
     });
+  }
+
+  // Categories step: the edited lists replace the starting lists (a new account has no entries yet)
+  for (const list of ["categories", "incomeCategories", "payments"]) {
+    if (answers.lists?.[list]?.length) state[list] = [...answers.lists[list]];
   }
 
   for (const order of answers.orders) {

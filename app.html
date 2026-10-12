@@ -17,20 +17,20 @@
     <link rel="apple-touch-icon" href="img/icons/apple-touch-icon.png" />
     <link rel="manifest" href="manifest.webmanifest" />
     <!-- Styles: base.css applies everywhere, then one file per page, responsive.css last -->
-    <script src="js/shared/translations.js?v=2026100842"></script>
-    <script src="js/shared/i18n.js?v=2026100842"></script>
-    <script src="js/shared/update.js?v=2026100842" defer></script>
-    <link rel="stylesheet" href="css/shared/base.css?v=2026100842" />
-    <link rel="stylesheet" href="css/app/dashboard.css?v=2026100842" />
-    <link rel="stylesheet" href="css/app/month.css?v=2026100842" />
-    <link rel="stylesheet" href="css/app/month-picker.css?v=2026100842" />
-    <link rel="stylesheet" href="css/app/settings.css?v=2026100842" />
-    <link rel="stylesheet" href="css/app/future.css?v=2026100842" />
-    <link rel="stylesheet" href="css/shared/themes.css?v=2026100842" />
-    <link rel="stylesheet" href="css/app/tour.css?v=2026100842" />
-    <link rel="stylesheet" href="css/app/setup.css?v=2026100842" />
-    <link rel="stylesheet" href="css/app/responsive.css?v=2026100842" />
-    <link rel="stylesheet" href="css/shared/error.css?v=2026100842" />
+    <script src="js/shared/translations.js?v=2026100845"></script>
+    <script src="js/shared/i18n.js?v=2026100845"></script>
+    <script src="js/shared/update.js?v=2026100845" defer></script>
+    <link rel="stylesheet" href="css/shared/base.css?v=2026100845" />
+    <link rel="stylesheet" href="css/app/dashboard.css?v=2026100845" />
+    <link rel="stylesheet" href="css/app/month.css?v=2026100845" />
+    <link rel="stylesheet" href="css/app/month-picker.css?v=2026100845" />
+    <link rel="stylesheet" href="css/app/settings.css?v=2026100845" />
+    <link rel="stylesheet" href="css/app/future.css?v=2026100845" />
+    <link rel="stylesheet" href="css/shared/themes.css?v=2026100845" />
+    <link rel="stylesheet" href="css/app/tour.css?v=2026100845" />
+    <link rel="stylesheet" href="css/app/setup.css?v=2026100845" />
+    <link rel="stylesheet" href="css/app/responsive.css?v=2026100845" />
+    <link rel="stylesheet" href="css/shared/error.css?v=2026100845" />
   </head>
   <body>
     <div id="toast" class="toast" role="status" hidden></div>
@@ -524,6 +524,7 @@
                 <select id="recKind">
                   <option value="expense">Ausgabe (−)</option>
                   <option value="income">Einnahme (+)</option>
+                  <option value="saving">Aufs Sparkonto (↗)</option>
                 </select>
               </div>
               <div class="field half">
@@ -591,15 +592,30 @@
           <div class="head">
             <div>
               <h1>Sparzukunft</h1>
-              <p>So viel sparst du in jedem Lehrjahr – mit „Automatisch sparen“, gesparten Pauschalen, dem 13. Lohn und Daueraufträgen aufs Sparkonto.</p>
+              <p>So viel sparst du in jedem Lehrjahr – mit „Automatisch sparen“, gesparten Pauschalen, dem 13. Lohn und Daueraufträgen aufs Sparkonto. Den Zeitraum kannst du selbst wählen.</p>
             </div>
             <div class="head-actions">
               <button class="secondary" data-action="edit-saving">Beträge ändern</button>
             </div>
           </div>
           <div class="card future-total">
+            <div class="future-range" role="group" aria-label="Zeitraum">
+              <div class="future-range-pick">
+                <svg class="future-range-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
+                <label class="future-range-field">
+                  <small>Von</small>
+                  <select id="futureFrom"></select>
+                </label>
+                <span class="future-range-arrow" aria-hidden="true">→</span>
+                <label class="future-range-field">
+                  <small>Bis</small>
+                  <select id="futureTo"></select>
+                </label>
+              </div>
+              <div class="future-presets" id="futurePresets"></div>
+            </div>
             <div class="future-total-sum">
-              <p>Bis zum Ende der Lehre sparst du</p>
+              <p id="futureTotalLabel"></p>
               <strong id="futureTotal"></strong>
               <small id="futureTotalNote"></small>
             </div>
@@ -897,18 +913,18 @@
 
     <!-- api.js: connection to the backend (login + database).
          js/app/: the app logic, split into parts that are loaded in this order (main.js last) -->
-    <script src="js/shared/api.js?v=2026100842"></script>
-    <script src="js/app/tour.js?v=2026100842"></script>
-    <script src="js/app/setup.js?v=2026100842"></script>
-    <script src="js/app/state.js?v=2026100842"></script>
-    <script src="js/app/calc.js?v=2026100842"></script>
-    <script src="js/app/render.js?v=2026100842"></script>
-    <script src="js/app/render-settings.js?v=2026100842"></script>
-    <script src="js/app/future.js?v=2026100842"></script>
-    <script src="js/app/layout.js?v=2026100842"></script>
-    <script src="js/app/navigation.js?v=2026100842"></script>
-    <script src="js/app/forms.js?v=2026100842"></script>
-    <script src="js/app/payday.js?v=2026100842"></script>
-    <script src="js/app/main.js?v=2026100842"></script>
+    <script src="js/shared/api.js?v=2026100845"></script>
+    <script src="js/app/tour.js?v=2026100845"></script>
+    <script src="js/app/setup.js?v=2026100845"></script>
+    <script src="js/app/state.js?v=2026100845"></script>
+    <script src="js/app/calc.js?v=2026100845"></script>
+    <script src="js/app/render.js?v=2026100845"></script>
+    <script src="js/app/render-settings.js?v=2026100845"></script>
+    <script src="js/app/future.js?v=2026100845"></script>
+    <script src="js/app/layout.js?v=2026100845"></script>
+    <script src="js/app/navigation.js?v=2026100845"></script>
+    <script src="js/app/forms.js?v=2026100845"></script>
+    <script src="js/app/payday.js?v=2026100845"></script>
+    <script src="js/app/main.js?v=2026100845"></script>
   </body>
 </html>

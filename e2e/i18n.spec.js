@@ -98,6 +98,9 @@ for (const [language, expected] of Object.entries(LANGUAGES)) {
       await setup.locator('[data-allowance-amount="0"]').fill("120");
       await check("setup allowances");
       await page.click("#setupNext");
+      await expect(setup.locator(".setup-list")).toHaveCount(3);
+      await check("setup categories");
+      await page.click("#setupNext");
       await setup.locator('[data-setup="add-order"]').click();
       await setup.locator('[data-order="0"][data-key="name"]').fill("Netflix");
       await setup.locator('[data-order="0"][data-key="amount"]').fill("12");
@@ -131,9 +134,9 @@ test("default categories and accounts follow a language change", async ({ page, 
   await goTo(page, "expenses");
   await page.fill("#exDesc", "Mittagessen");
   await page.fill("#exAmount", "12");
-  await page.selectOption("#exCat", "Essen");
+  await page.selectOption("#exCat", "Essen & Trinken");
   await page.click("#expenseSave");
-  await expect(page.locator("#allExpenses")).toContainText("Essen");
+  await expect(page.locator("#allExpenses")).toContainText("Essen & Trinken");
   await page.waitForTimeout(1500); // saved on the server
 
   await page.selectOption("#appLang", "en");

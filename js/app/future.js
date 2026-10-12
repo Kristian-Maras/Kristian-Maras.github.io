@@ -5,8 +5,24 @@
 // monthly income, what is left to spend, and what is saved once a year (yearly allowances,
 // 13th-month salary with the November/December pay). On top: the total until the end of the
 // apprenticeship. The amounts are set under Einstellungen → Lohn & Pauschalen.
+// The period starts with "Tracken ab" and ends with the apprenticeship; both can be changed on the page.
 
-function futureYear(i) {
+let futureChoice = { from: null, to: null }; // chosen period on the page (pay months), not saved
+
+// All pay months of the apprenticeship (without the month after it ends)
+const apprenticeshipMonths = () => monthList().slice(0, state.years * 12);
+
+function futureRange() {
+  const months = apprenticeshipMonths();
+  const from = months.includes(futureChoice.from) ? futureChoice.from : months.includes(trackStart()) ? trackStart() : months[0];
+  const to = months.includes(futureChoice.to) && futureChoice.to >= from ? futureChoice.to : months.at(-1);
+  return { from, to };
+}
+
+function futureYear(i, from, to) {
+  const yearMonths = Array.from({ length: 12 }, (_, k) => addMonths(firstMonth(), i * 12 + k));
+  const months = yearMonths.filter((month) => month >= from && month <= to);
+  const inRange = (number) => months.some((month) => month.slice(5, 7) === number);
   const salary = Number(state.salaries[i]) || 0;
   const saveThirteenth = Boolean((state.thirteenthSave || [])[i]);
   const parts = [];
@@ -24,18 +40,17 @@ function futureYear(i) {
     const amount = Number(allowance.amounts[i]) || 0;
     const save = Number(allowance.save[i]) || 0;
     if (allowance.per === "year") {
-      if (amount) yearly.push({ when: t("Im {month}", { month: monthLabel(allowanceMonth(allowance)) }), label: allowance.name, amount, save });
+      if (amount && inRange(allowanceMonth(allowance))) yearly.push({ when: t("Im {month}", { month: monthLabel(allowanceMonth(allowance)) }), label: allowance.name, amount, save });
       continue;
     }
     allowanceIncome += amount;
     addSaved(allowance.name, save);
   }
   if (state.thirteenth === "spread" && saveThirteenth) addSaved(t("13. Lohn (Anteil)"), Math.round((salary / 13) * 100) / 100);
-  if (["11", "12"].includes(state.thirteenth) && salary) {
+  if (["11", "12"].includes(state.thirteenth) && salary && inRange(state.thirteenth)) {
     yearly.push({ when: t("Im {month}", { month: monthLabel(state.thirteenth) }), label: t("13. Monatslohn"), amount: salary, save: saveThirteenth ? salary : 0 });
   }
   // Standing orders to a savings account: monthly ones like the parts above, others as "n × im Jahr"
-  const months = Array.from({ length: 12 }, (_, k) => addMonths(firstMonth(), i * 12 + k));
   const orders = new Map();
   for (const month of months) {
     for (const { order } of plannedRecurring(month).filter((payment) => payment.order.kind === "saving")) {
@@ -46,21 +61,36 @@ function futureYear(i) {
     }
   }
   for (const { order, total, count } of orders.values()) {
-    if (count === 12) addSaved(order.name, Number(order.amount) || 0);
+    if (count === months.length) addSaved(order.name, Number(order.amount) || 0);
     else yearly.push({ when: t("{n} × im Jahr", { n: count }), label: order.name, amount: total, save: total, order: true });
   }
   const income = salary + allowanceIncome;
-  const perYear = saved * 12 + yearly.reduce((sum, item) => sum + item.save, 0);
-  return { salary, allowanceIncome, income, saved, left: income - saved, parts, yearly, perYear };
+  const perYear = saved * months.length + yearly.reduce((sum, item) => sum + item.save, 0);
+  return { salary, allowanceIncome, income, saved, left: income - saved, parts, yearly, perYear, monthCount: months.length };
 }
 
 function renderFuture() {
-  const years = yearIndexes().map((i) => ({ i, ...futureYear(i) }));
+  const { from, to } = futureRange();
+  const months = apprenticeshipMonths();
+  const options = (list, selected) =>
+    list.map((month) => `<option value="${month}"${month === selected ? " selected" : ""}>${monthName(month)}</option>`).join("");
+  $("futureFrom").innerHTML = options(months, from);
+  $("futureTo").innerHTML = options(months.filter((month) => month >= from), to);
+  const presets = futurePresets().filter((preset) => preset.show);
+  $("futurePresets").innerHTML = presets
+    .map((preset) => `<button type="button" data-action="future-preset" data-preset="${preset.id}" aria-pressed="${preset.from === from && preset.to === to}">${preset.label}</button>`)
+    .join("");
+
+  const years = yearIndexes()
+    .map((i) => ({ i, ...futureYear(i, from, to) }))
+    .filter((year) => year.monthCount > 0);
   const total = years.reduce((sum, year) => sum + year.perYear, 0);
   const biggest = Math.max(...years.map((year) => year.perYear), 1);
+  const monthCount = years.reduce((sum, year) => sum + year.monthCount, 0);
 
+  $("futureTotalLabel").textContent = t("Von {from} bis {to} sparst du", { from: monthName(from), to: monthName(to) });
   $("futureTotal").textContent = chf(total);
-  $("futureTotalNote").textContent = t("in {years} Lehrjahren, wenn alles so bleibt wie eingestellt", { years: years.length });
+  $("futureTotalNote").textContent = t("in {n} Lohnmonaten, wenn alles so bleibt wie eingestellt", { n: monthCount });
   $("futureYears").innerHTML = years
     .map(
       (year) => `<li>
@@ -85,7 +115,7 @@ function renderFuture() {
         )
         .join("");
       return `<article class="card save-year">
-        <h2>${yearLabel(year.i)}</h2>
+        <h2>${yearLabel(year.i)}${year.monthCount < 12 ? ` <small>· ${t("{n} von 12 Monaten", { n: year.monthCount })}</small>` : ""}</h2>
         <p class="save-headline">${t(year.allowanceIncome ? "Du sparst {saved} von {income} (Lohn + Pauschalen) pro Monat" : "Du sparst {saved} von {income} (Lohn) pro Monat", {
           saved: `<b>${chf(year.saved)}</b>`,
           income: chf(year.income),
@@ -97,6 +127,32 @@ function renderFuture() {
       </article>`;
     })
     .join("");
+}
+
+// Period select on the page: from / until which pay month
+function chooseFutureRange(field) {
+  futureChoice[field.id === "futureFrom" ? "from" : "to"] = field.value;
+  renderFuture();
+}
+
+// Quick choices: from "Tracken ab", from today's pay month, or the whole apprenticeship
+function futurePresets() {
+  const months = apprenticeshipMonths();
+  const end = months.at(-1);
+  const track = months.includes(trackStart()) ? trackStart() : months[0];
+  const today = todaysMonth();
+  return [
+    { id: "track", label: t("Ab Tracken"), from: track, to: end, show: track !== months[0] },
+    { id: "today", label: t("Ab heute"), from: today, to: end, show: today !== track && months.includes(today) },
+    { id: "all", label: t("Ganze Lehre"), from: months[0], to: end, show: true },
+  ];
+}
+
+function chooseFuturePreset(id) {
+  const preset = futurePresets().find((item) => item.id === id);
+  if (!preset) return;
+  futureChoice = { from: preset.from, to: preset.to };
+  renderFuture();
 }
 
 // "Beträge ändern": to Einstellungen → Lohn & Pauschalen

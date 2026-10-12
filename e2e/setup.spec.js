@@ -62,6 +62,21 @@ test("a new account answers the setup first; the answers end up in the settings"
   await setup.locator('[data-own="per"]').selectOption("year");
   await next.click();
 
+  // Categories: the short default lists; rename, remove and add own names
+  await expect(setup.locator(".setup-list")).toHaveCount(3);
+  await expect(setup.locator('[data-tag-list="categories"]')).toHaveCount(5);
+  await expect(setup.locator('[data-tag-list="payments"]')).toHaveCount(3);
+  await expect(setup.locator('[data-tag-list="payments"][data-tag="0"]')).toHaveValue("Karte / TWINT");
+  await setup.locator('[data-tag-list="categories"][data-tag="0"]').fill("Essen");
+  await setup.locator('[data-setup="remove-tag"][data-list="categories"][data-index="4"]').click(); // Sport
+  await setup.locator('[data-tag-new="categories"]').fill("Coiffeur");
+  await setup.locator('[data-tag-new="categories"]').press("Enter");
+  await setup.locator('[data-tag-new="incomeCategories"]').fill("Babysitten");
+  await setup.locator('[data-tag-new="incomeCategories"]').press("Enter");
+  await expect(setup.locator('[data-tag-list="incomeCategories"]')).toHaveCount(5);
+  await setup.locator('[data-tag-new="payments"]').fill("PayPal"); // without Enter: still added on "Weiter"
+  await next.click();
+
   // Subscriptions can be skipped; here one is added.
   await expect(page.locator("#setupSkip")).toBeVisible();
   await setup.locator('[data-setup="add-order"]').click();
@@ -91,6 +106,11 @@ test("a new account answers the setup first; the answers end up in the settings"
 
   await goTo(page, "recurring");
   await expect(page.locator("#recurringRows")).toContainText("Handy-Abo");
+  const lists = await page.evaluate(() => ({ categories: state.categories, income: state.incomeCategories, payments: state.payments }));
+  expect(lists.categories).toEqual(["Essen", "Freizeit", "Fahrzeug", "Kleidung", "Coiffeur"]);
+  expect(lists.categories).toContain("Coiffeur");
+  expect(lists.income).toContain("Babysitten");
+  expect(lists.payments).toContain("PayPal");
 
   // After reloading, the setup is not shown again.
   await page.reload();

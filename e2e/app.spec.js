@@ -219,7 +219,7 @@ test("a withdrawal cannot exceed the savings balance", async ({ page, request })
 test("standing orders appear in the month and can be marked as paid", async ({ page, request }) => {
   await openApp(page, request);
   await goTo(page, "recurring");
-  await expect(page.locator('#recKind option[value="saving"]')).toHaveCount(0); // saving is set up in the settings
+  await expect(page.locator('#recKind option[value="saving"]')).toHaveCount(1); // transfers to a savings account too
   await page.fill("#recName", "Handy-Abo");
   await page.fill("#recAmount", "25");
   await page.selectOption("#recInterval", "monthly");
@@ -423,4 +423,20 @@ test("the opening balance of a savings account shows on the month page too", asy
   await expect.poll(async () => chf(await page.locator("#mSaved").textContent())).toBeCloseTo(card);
   await expect(page.locator("#mSavedExtra")).toContainText("0.50");
   await expect(page.locator("#monthMath")).toContainText("Anfangsbestand Sparkonto");
+});
+
+test("a standing order can transfer money to a savings account", async ({ page, request }) => {
+  await openApp(page, request);
+  await goTo(page, "recurring");
+  await page.selectOption("#recKind", "saving");
+  await expect(page.locator("#recCatLabel")).toHaveText("Sparkonto");
+  const account = await page.evaluate(() => savingAccounts()[0].name);
+  await expect(page.locator("#recCat option").first()).toHaveText(account);
+  await page.fill("#recName", "Sparplan Ferien");
+  await page.fill("#recAmount", "100");
+  await page.click("#recurringSave");
+  await expect(page.locator("#recurringRows")).toContainText("Sparplan Ferien");
+  const order = await page.evaluate(() => state.recurring.find((item) => item.name === "Sparplan Ferien"));
+  expect(order.kind).toBe("saving");
+  expect(order.cat).toBe(account);
 });

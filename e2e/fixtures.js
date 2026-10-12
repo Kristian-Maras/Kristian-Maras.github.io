@@ -134,6 +134,7 @@ async function completeSetup(page, answers = {}) {
   await next.click();
   await setup.locator('[data-choice="allowances"][data-value="no"]').click();
   await next.click();
+  await next.click(); // categories: keep the suggested lists
   await page.locator("#setupSkip").click(); // subscriptions
   await next.click(); // summary: "Los geht's"
   await base.expect(setup).toBeHidden();
