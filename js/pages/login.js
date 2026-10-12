@@ -181,7 +181,7 @@ async function submit() {
       const result = await api("/auth/register", { method: "POST", body: { email, username, password, acceptTerms: $("acceptTerms").checked }, redirectOn401: false });
       setMode("login");
       $("email").value = email;
-      showNotice(t(result.message) + localMailHint());
+      showNotice(t(result.message) + spamHint() + localMailHint());
     } else if (mode === "forgot") {
       const result = await api("/auth/forgot-password", { method: "POST", body: { email }, redirectOn401: false });
       setMode("login");
@@ -270,10 +270,15 @@ async function resendVerification() {
     const result = await api("/auth/resend-verification", { method: "POST", body: { email }, redirectOn401: false });
     showError("");
     $("resendBtn").hidden = true;
-    showNotice(t(result.message) + localMailHint());
+    showNotice(t(result.message) + spamHint() + localMailHint());
   } catch (error) {
     showError(error.message);
   }
+}
+
+/** Confirmation emails sometimes land in spam, so point there. */
+function spamHint() {
+  return " " + t("Schau auch im Spam-Ordner nach.");
 }
 
 /** Without a mail server the emails are printed to the IntelliJ console; say so when running locally. */

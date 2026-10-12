@@ -43,6 +43,7 @@ test("register, confirm the email and log in", async ({ page, request }) => {
   const email = uniqueEmail("register");
   await register(page, { email });
   await expect(page.locator("#authNotice")).toContainText("E-Mail geschickt");
+  await expect(page.locator("#authNotice")).toContainText("Spam-Ordner");
 
   // Before the confirmation the login is refused, and the link can be sent again.
   await page.fill("#email", email);
