@@ -88,7 +88,7 @@ test("deleting the account needs the password and the link from the email", asyn
   await expect(page.locator("#deletedDialog")).toBeVisible();
   await expect(page.locator("#deletedTitle")).toHaveText("Du hast dein Konto gelöscht");
   await expect(page.locator("#deletedRegister")).toHaveAttribute("href", "login.html?register");
-  await expect(page.locator("#deletedHome")).toHaveAttribute("href", "index.html");
+  await expect(page.locator("#deletedHome")).toHaveAttribute("href", "./");
   await page.click("#deletedLogin");
   await expect(page.locator("#deletedDialog")).toBeHidden();
   await expect(page.locator("#email")).toBeVisible();
