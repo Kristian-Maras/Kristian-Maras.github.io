@@ -139,13 +139,26 @@ test("Sparzukunft starts with 'Tracken ab', shows the period and the period can 
 
   // Only the 2nd apprenticeship year
   const [secondStart, secondEnd] = await page.evaluate(() => [addMonths(firstMonth(), 12), addMonths(firstMonth(), 23)]);
-  await page.selectOption("#futureFrom", secondStart);
-  await page.selectOption("#futureTo", secondEnd);
+  const pick = async (end, month) => {
+    await page.click(`#future${end}`);
+    await expect(page.locator("#futureMonthDialog")).toBeVisible();
+    while (!(await page.locator(`#futureMonthGrid [data-month="${month}"]`).count())) {
+      const year = Number(await page.locator("#futurePickYear").textContent());
+      await page.click(`[data-action="future-pick-year"][data-step="${Number(month.slice(0, 4)) > year ? 1 : -1}"]`);
+    }
+    await page.click(`#futureMonthGrid [data-month="${month}"]`);
+    await expect(page.locator("#futureMonthDialog")).toBeHidden();
+  };
+  await pick("From", secondStart);
+  await pick("To", secondEnd);
   await expect(page.locator("#futureYears li")).toHaveCount(1);
   await expect(page.locator("#futureTotal")).toHaveText("CHF 2’400.00");
   // "Bis" only offers months from "Von" on
-  const before = await page.locator(`#futureTo option[value="${await page.evaluate(() => addMonths(firstMonth(), 11))}"]`).count();
-  expect(before).toBe(0);
+  await page.click("#futureTo");
+  const offered = await page.evaluate(() => futurePickChoices());
+  expect(offered[0]).toBe(secondStart);
+  await expect(page.locator("#futureMonthGrid .month-cell.selected")).toHaveAttribute("data-month", secondEnd);
+  await page.click('[data-action="close-future-pick"]');
 
   // Quick choices
   await page.click('[data-action="future-preset"][data-preset="all"]');

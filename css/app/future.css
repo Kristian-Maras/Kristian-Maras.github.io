@@ -36,46 +36,54 @@
   stroke-linecap: round;
 }
 
+/* "Von" / "Bis": buttons that open the month pop-up */
 .future-range-field {
   display: grid;
-  gap: 1px;
-  min-width: 0;
-  padding: 5px 10px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 14px;
+  align-items: center;
+  min-width: 150px;
+  min-height: 0;
+  margin: 0;
+  padding: 6px 12px;
+  border: 1px solid transparent;
   border-radius: 10px;
   background: var(--panel);
   box-shadow: var(--shadow-small);
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
   cursor: pointer;
 }
 
+.future-range-field:hover {
+  border-color: var(--brand);
+}
+
 .future-range-field small {
+  grid-column: 1;
   color: var(--muted);
   font-size: 11px;
 }
 
-.future-range-field select {
-  width: auto;
-  min-width: 0;
-  max-width: 100%;
-  height: auto;
-  margin: 0;
-  padding: 0 18px 0 0;
-  border: 0;
-  background-color: transparent;
-  background-position: calc(100% - 7px) 55%, calc(100% - 2px) 55%;
-  box-shadow: none;
-  color: var(--ink);
+.future-range-field b {
+  grid-column: 1;
+  overflow: hidden;
   font-size: 15px;
   font-weight: 600;
-  cursor: pointer;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
-.future-range-field:focus-within {
-  outline: 2px solid var(--focus-ring);
-  outline-offset: 1px;
+.future-range-field .label-short {
+  display: none;
 }
 
-.future-range-field select:focus {
-  outline: none;
+.future-range-caret {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  color: var(--muted);
+  font-size: 12px;
 }
 
 .future-range-arrow {
@@ -273,10 +281,35 @@
 
   .future-range-field {
     flex: 1 1 0;
+    min-width: 0;
+  }
+}
+
+/* Phones: no calendar icon and less space, so "September 2026" fits */
+@media (max-width: 560px) {
+  .future-range {
+    padding: 10px;
   }
 
-  .future-range-field select {
-    width: 100%;
+  .future-range-pick {
+    gap: 6px;
+  }
+
+  .future-range-icon {
+    display: none;
+  }
+
+  .future-range-field .label-long {
+    display: none;
+  }
+
+  .future-range-field .label-short {
+    display: inline;
+  }
+
+  .future-range-field {
+    column-gap: 6px;
+    padding: 6px 10px;
   }
 
   .future-total-sum strong {

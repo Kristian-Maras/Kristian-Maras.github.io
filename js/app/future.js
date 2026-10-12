@@ -71,11 +71,14 @@ function futureYear(i, from, to) {
 
 function renderFuture() {
   const { from, to } = futureRange();
-  const months = apprenticeshipMonths();
-  const options = (list, selected) =>
-    list.map((month) => `<option value="${month}"${month === selected ? " selected" : ""}>${monthName(month)}</option>`).join("");
-  $("futureFrom").innerHTML = options(months, from);
-  $("futureTo").innerHTML = options(months.filter((month) => month >= from), to);
+  // Full month name, and a short one for phones ("Sept. 2026")
+  const label = (month) => {
+    const [year, number] = month.split("-").map(Number);
+    const short = new Date(year, number - 1).toLocaleDateString(I18N.locale, { month: "short", year: "numeric" });
+    return `<span class="label-long">${monthName(month)}</span><span class="label-short">${short}</span>`;
+  };
+  $("futureFromLabel").innerHTML = label(from);
+  $("futureToLabel").innerHTML = label(to);
   const presets = futurePresets().filter((preset) => preset.show);
   $("futurePresets").innerHTML = presets
     .map((preset) => `<button type="button" data-action="future-preset" data-preset="${preset.id}" aria-pressed="${preset.from === from && preset.to === to}">${preset.label}</button>`)
@@ -129,9 +132,50 @@ function renderFuture() {
     .join("");
 }
 
-// Period select on the page: from / until which pay month
-function chooseFutureRange(field) {
-  futureChoice[field.id === "futureFrom" ? "from" : "to"] = field.value;
+// "Von" / "Bis": a pop-up with ‹ year › and the twelve months, like "Monat ändern".
+// "Bis" only offers months from "Von" on; months outside the apprenticeship can not be chosen.
+let futurePick = { end: "from", year: null };
+
+function futurePickChoices() {
+  const months = apprenticeshipMonths();
+  return futurePick.end === "to" ? months.filter((month) => month >= futureRange().from) : months;
+}
+
+function openFuturePick(data) {
+  const { from, to } = futureRange();
+  futurePick = { end: data.end === "to" ? "to" : "from", year: Number((data.end === "to" ? to : from).slice(0, 4)) };
+  renderFuturePick();
+  if (!$("futureMonthDialog").open) $("futureMonthDialog").showModal();
+  $("futureMonthGrid").querySelector(".selected")?.focus();
+}
+
+function renderFuturePick() {
+  const choices = futurePickChoices();
+  const years = choices.map((month) => Number(month.slice(0, 4)));
+  const selected = futureRange()[futurePick.end];
+  const today = todaysMonth();
+  $("futureMonthTitle").textContent = t(futurePick.end === "to" ? "Bis zu welchem Lohnmonat?" : "Ab welchem Lohnmonat?");
+  $("futurePickYear").textContent = futurePick.year;
+  document.querySelector('[data-action="future-pick-year"][data-step="-1"]').disabled = futurePick.year <= Math.min(...years);
+  document.querySelector('[data-action="future-pick-year"][data-step="1"]').disabled = futurePick.year >= Math.max(...years);
+  $("futureMonthGrid").innerHTML = Array.from({ length: 12 }, (_, i) => {
+    const month = `${futurePick.year}-${pad2(i + 1)}`;
+    const label = new Date(futurePick.year, i).toLocaleDateString(I18N.locale, { month: "short" }).replace(".", "");
+    const classes = ["month-cell", month === selected ? "selected" : "", month === today ? "today" : ""].join(" ");
+    return `<button type="button" class="${classes}" data-action="future-pick-month" data-month="${month}"
+      aria-pressed="${month === selected}" aria-label="${monthName(month)}" ${choices.includes(month) ? "" : "disabled"}>${label}</button>`;
+  }).join("");
+}
+
+function changeFuturePickYear(data) {
+  futurePick.year += Number(data.step);
+  renderFuturePick();
+}
+
+function pickFutureMonth(data) {
+  if (!futurePickChoices().includes(data.month)) return;
+  futureChoice[futurePick.end] = data.month;
+  $("futureMonthDialog").close();
   renderFuture();
 }
 

@@ -53,7 +53,7 @@ function setMenuOpen(open) {
 }
 
 // Clicking beside a pop-up closes it
-for (const id of ["comparisonDialog", "monthEntry"]) {
+for (const id of ["comparisonDialog", "monthEntry", "futureMonthDialog"]) {
   $(id).addEventListener("click", (event) => {
     if (event.target === $(id)) $(id).close();
   });

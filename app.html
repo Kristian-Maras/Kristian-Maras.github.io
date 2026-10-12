@@ -18,20 +18,20 @@
     <link rel="apple-touch-icon" href="img/icons/apple-touch-icon.png" />
     <link rel="manifest" href="manifest.webmanifest" />
     <!-- Styles: base.css applies everywhere, then one file per page, responsive.css last -->
-    <script src="js/shared/translations.js?v=2026100849"></script>
-    <script src="js/shared/i18n.js?v=2026100849"></script>
-    <script src="js/shared/update.js?v=2026100849" defer></script>
-    <link rel="stylesheet" href="css/shared/base.css?v=2026100849" />
-    <link rel="stylesheet" href="css/app/dashboard.css?v=2026100849" />
-    <link rel="stylesheet" href="css/app/month.css?v=2026100849" />
-    <link rel="stylesheet" href="css/app/month-picker.css?v=2026100849" />
-    <link rel="stylesheet" href="css/app/settings.css?v=2026100849" />
-    <link rel="stylesheet" href="css/app/future.css?v=2026100849" />
-    <link rel="stylesheet" href="css/shared/themes.css?v=2026100849" />
-    <link rel="stylesheet" href="css/app/tour.css?v=2026100849" />
-    <link rel="stylesheet" href="css/app/setup.css?v=2026100849" />
-    <link rel="stylesheet" href="css/app/responsive.css?v=2026100849" />
-    <link rel="stylesheet" href="css/shared/error.css?v=2026100849" />
+    <script src="js/shared/translations.js?v=2026100851"></script>
+    <script src="js/shared/i18n.js?v=2026100851"></script>
+    <script src="js/shared/update.js?v=2026100851" defer></script>
+    <link rel="stylesheet" href="css/shared/base.css?v=2026100851" />
+    <link rel="stylesheet" href="css/app/dashboard.css?v=2026100851" />
+    <link rel="stylesheet" href="css/app/month.css?v=2026100851" />
+    <link rel="stylesheet" href="css/app/month-picker.css?v=2026100851" />
+    <link rel="stylesheet" href="css/app/settings.css?v=2026100851" />
+    <link rel="stylesheet" href="css/app/future.css?v=2026100851" />
+    <link rel="stylesheet" href="css/shared/themes.css?v=2026100851" />
+    <link rel="stylesheet" href="css/app/tour.css?v=2026100851" />
+    <link rel="stylesheet" href="css/app/setup.css?v=2026100851" />
+    <link rel="stylesheet" href="css/app/responsive.css?v=2026100851" />
+    <link rel="stylesheet" href="css/shared/error.css?v=2026100851" />
   </head>
   <body>
     <div id="toast" class="toast" role="status" hidden></div>
@@ -119,6 +119,20 @@
       <p id="pickerPeriod" class="note month-period"></p>
       <div class="dialog-buttons">
         <button type="button" class="secondary" data-action="close-month-entry">Schliessen</button>
+      </div>
+    </dialog>
+
+    <!-- Sparzukunft "Von" / "Bis": the same month pop-up as "Monat ändern" (openFuturePick in js/app/future.js) -->
+    <dialog id="futureMonthDialog" class="app-dialog month-dialog" aria-labelledby="futureMonthTitle">
+      <h2 id="futureMonthTitle"></h2>
+      <div class="month-year">
+        <button type="button" class="icon-button" data-action="future-pick-year" data-step="-1" aria-label="Vorheriges Jahr">‹</button>
+        <b id="futurePickYear"></b>
+        <button type="button" class="icon-button" data-action="future-pick-year" data-step="1" aria-label="Nächstes Jahr">›</button>
+      </div>
+      <div id="futureMonthGrid" class="month-grid"></div>
+      <div class="dialog-buttons">
+        <button type="button" class="secondary" data-action="close-future-pick">Schliessen</button>
       </div>
     </dialog>
 
@@ -603,15 +617,17 @@
             <div class="future-range" role="group" aria-label="Zeitraum">
               <div class="future-range-pick">
                 <svg class="future-range-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
-                <label class="future-range-field">
+                <button type="button" class="future-range-field" id="futureFrom" data-action="future-pick" data-end="from" aria-haspopup="dialog">
                   <small>Von</small>
-                  <select id="futureFrom"></select>
-                </label>
+                  <b id="futureFromLabel"></b>
+                  <span class="future-range-caret" aria-hidden="true">▾</span>
+                </button>
                 <span class="future-range-arrow" aria-hidden="true">→</span>
-                <label class="future-range-field">
+                <button type="button" class="future-range-field" id="futureTo" data-action="future-pick" data-end="to" aria-haspopup="dialog">
                   <small>Bis</small>
-                  <select id="futureTo"></select>
-                </label>
+                  <b id="futureToLabel"></b>
+                  <span class="future-range-caret" aria-hidden="true">▾</span>
+                </button>
               </div>
               <div class="future-presets" id="futurePresets"></div>
             </div>
@@ -914,18 +930,18 @@
 
     <!-- api.js: connection to the backend (login + database).
          js/app/: the app logic, split into parts that are loaded in this order (main.js last) -->
-    <script src="js/shared/api.js?v=2026100849"></script>
-    <script src="js/app/tour.js?v=2026100849"></script>
-    <script src="js/app/setup.js?v=2026100849"></script>
-    <script src="js/app/state.js?v=2026100849"></script>
-    <script src="js/app/calc.js?v=2026100849"></script>
-    <script src="js/app/render.js?v=2026100849"></script>
-    <script src="js/app/render-settings.js?v=2026100849"></script>
-    <script src="js/app/future.js?v=2026100849"></script>
-    <script src="js/app/layout.js?v=2026100849"></script>
-    <script src="js/app/navigation.js?v=2026100849"></script>
-    <script src="js/app/forms.js?v=2026100849"></script>
-    <script src="js/app/payday.js?v=2026100849"></script>
-    <script src="js/app/main.js?v=2026100849"></script>
+    <script src="js/shared/api.js?v=2026100851"></script>
+    <script src="js/app/tour.js?v=2026100851"></script>
+    <script src="js/app/setup.js?v=2026100851"></script>
+    <script src="js/app/state.js?v=2026100851"></script>
+    <script src="js/app/calc.js?v=2026100851"></script>
+    <script src="js/app/render.js?v=2026100851"></script>
+    <script src="js/app/render-settings.js?v=2026100851"></script>
+    <script src="js/app/future.js?v=2026100851"></script>
+    <script src="js/app/layout.js?v=2026100851"></script>
+    <script src="js/app/navigation.js?v=2026100851"></script>
+    <script src="js/app/forms.js?v=2026100851"></script>
+    <script src="js/app/payday.js?v=2026100851"></script>
+    <script src="js/app/main.js?v=2026100851"></script>
   </body>
 </html>

@@ -31,6 +31,10 @@ const actions = {
   "rename-allowance": (data) => renameAllowance(data.id),
   "edit-saving": editSaving,
   "future-preset": (data) => chooseFuturePreset(data.preset),
+  "future-pick": openFuturePick,
+  "future-pick-year": changeFuturePickYear,
+  "future-pick-month": pickFutureMonth,
+  "close-future-pick": () => $("futureMonthDialog").close(),
   "delete-allowance": (data) => deleteAllowance(data.id),
   "save-entry": saveEntry,
   "save-recurring": saveRecurring,
@@ -95,7 +99,6 @@ document.addEventListener("change", (event) => {
   }
   if (field.dataset.accountStart) return changeAccountStart(field);
   if (field.dataset.accountStartMonth) return chooseOpeningMonth(field);
-  if (field.id === "futureFrom" || field.id === "futureTo") return chooseFutureRange(field);
   if (SETTINGS_FIELD.test(field.id)) return saveSettings();
 
   if (field.id === "entryKind" || field.id === "recKind") fillSelects();

@@ -595,6 +595,8 @@ window.TRANSLATIONS = {
   "{n} von 12 Monaten": ["{n} of 12 months", "{n} mois sur 12", "{n} mesi su 12"],
   "Von": ["From", "De", "Da"],
   "Zeitraum": ["Period", "Période", "Periodo"],
+  "Ab welchem Lohnmonat?": ["From which pay month?", "À partir de quel mois de salaire ?", "Da quale mese di salario?"],
+  "Bis zu welchem Lohnmonat?": ["Up to which pay month?", "Jusqu'à quel mois de salaire ?", "Fino a quale mese di salario?"],
   "Ab Tracken": ["From tracking start", "Depuis le début du suivi", "Dall'inizio del tracciamento"],
   "Ab heute": ["From today", "Dès aujourd'hui", "Da oggi"],
   "Ganze Lehre": ["Whole apprenticeship", "Tout l'apprentissage", "Intero apprendistato"],
