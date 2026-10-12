@@ -1,8 +1,8 @@
 # Finance OS – Website
 
 Die Website von Finance OS (HTML / CSS / JavaScript), veröffentlicht mit **GitHub Pages** unter
-**https://kristian-maras.github.io**. Das Backend (Login, Speichern, E-Mails) liegt im Repository
-[finance-tracker-backend](https://github.com/Kristian-Maras/finance-tracker-backend).
+**https://finance-os.dev**. Das Backend (Login, Speichern, E-Mails) liegt im Repository
+[finance-tracker-backend](https://github.com/Zh-Kristian/finance-tracker-backend).
 
 ## Ordnerstruktur
 
@@ -10,7 +10,7 @@ Auf deinem Computer liegt dieses Repository als `finance-os/frontend/`, daneben 
 (Backend) und `finance-os/secrets/` (Passwörter, kein Repository).
 
 ```
-frontend/   (Repository Kristian-Maras.github.io)
+frontend/   (Repository Zh-Kristian.github.io)
 ├── index.html              Startseite für neue Besucher
 ├── login.html              Login, Registrieren, Passwort vergessen/ändern, E-Mail ändern
 ├── app.html                Finance OS (Dashboard, Monat, Einträge, Daueraufträge, Einstellungen)
@@ -164,10 +164,10 @@ dann `npm run test:e2e`.
 
 ## Neue Version veröffentlichen
 
-Alle CSS- und JS-Dateien werden mit einer Versionsnummer eingebunden, z. B. `css/shared/base.css?v=2026100845`,
+Alle CSS- und JS-Dateien werden mit einer Versionsnummer eingebunden, z. B. `css/shared/base.css?v=2026100846`,
 und dieselbe Nummer steht in `version.json`. Bei jeder Änderung an der Website die Nummer überall erhöhen:
-in IntelliJ **Strg+Shift+R** (Ersetzen in Dateien) → `2026100845` durch die neue Nummer ersetzen
-(z. B. Datum + laufende Nummer: `2026100845`), dann pushen.
+in IntelliJ **Strg+Shift+R** (Ersetzen in Dateien) → `2026100846` durch die neue Nummer ersetzen
+(z. B. Datum + laufende Nummer: `2026100846`), dann pushen.
 
 - Handys laden dadurch sicher die neuen Dateien statt der alten aus dem Zwischenspeicher.
 - Wer die Seite oder die App auf dem Home-Bildschirm gerade offen hat, bekommt innerhalb von

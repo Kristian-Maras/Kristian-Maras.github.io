@@ -1,7 +1,7 @@
 // Client for the Spring Boot backend (repository finance-tracker-backend).
 //
 // The website and the backend run on different addresses:
-//   published:  https://kristian-maras.github.io  →  backend on Render (PUBLIC_API_URL)
+//   published:  https://finance-os.dev  →  backend on Render (PUBLIC_API_URL)
 //   locally:    Live Server (port 5500)         →  backend in IntelliJ (http://localhost:8080)
 // Browsers block login cookies between different addresses, so the login token is kept in
 // localStorage and sent in the Authorization header.
