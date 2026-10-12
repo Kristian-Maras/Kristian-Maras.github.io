@@ -750,9 +750,14 @@ html {
 
 /* Footer */
 
+/* Always visible: sticks to the bottom of the screen like the header at the top */
 .site-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
   border-top: 1px solid var(--line);
-  background: var(--panel);
+  background: color-mix(in srgb, var(--panel) 92%, transparent);
+  backdrop-filter: saturate(1.4) blur(10px);
   font-size: 14px;
   color: var(--muted);
 }
@@ -761,9 +766,9 @@ html {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 16px 32px;
-  padding-top: 28px;
-  padding-bottom: 28px;
+  gap: 10px 32px;
+  padding-top: 14px;
+  padding-bottom: 14px;
 }
 
 .footer-inner .brand {
@@ -937,38 +942,45 @@ html {
     padding: 48px 22px;
   }
 
-  /* Phone: footer centred – logo with name, links in two tidy columns, copyright */
+  /* Phone: one slim bar – the four page links in two tidy columns, copyright below.
+     Login and registration are already in the header and its menu. */
   .footer-inner {
-    flex-direction: column;
-    align-items: center;
-    gap: 18px;
-    padding-top: 32px;
-    padding-bottom: calc(28px + env(safe-area-inset-bottom));
+    display: block;
+    padding-top: 8px;
+    padding-bottom: calc(8px + env(safe-area-inset-bottom));
     text-align: center;
   }
 
-  .footer-inner .brand span {
-    display: inline;
+  .footer-inner .brand,
+  .footer-inner nav a[href^="login.html"] {
+    display: none;
   }
 
   .footer-inner nav {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 2px 12px;
-    width: 100%;
+    gap: 0;
     max-width: 340px;
+    margin: 0 auto;
   }
 
   .footer-inner nav a {
     margin: 0;
-    padding: 10px 8px;
-    border-radius: 10px;
-    font-size: 15px;
+    padding: 5px 4px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  /* Thin line between the two columns */
+  .footer-inner nav a:nth-child(odd) {
+    border-right: 1px solid var(--line);
   }
 
   .footer-inner p {
-    margin: 0;
-    font-size: 13px;
+    margin: 2px 0 0;
+    font-size: 11px;
+    color: var(--muted);
   }
 }
 
