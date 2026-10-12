@@ -65,7 +65,7 @@ test("imprint and terms of use are linked in the footer and readable", async ({ 
   await page.goto("/impressum.html");
   await expect(page.locator("h1")).toHaveText("Impressum");
   await expect(page.locator("main")).toContainText("Kristian Maras");
-  await expect(page.locator("main")).toContainText("os.finance.tracker@gmail.com");
+  await expect(page.locator("main")).toContainText("kontakt@finance-os.dev");
   await page.goto("/nutzungsbedingungen.html");
   await expect(page.locator("h1")).toHaveText("Nutzungsbedingungen");
   await expect(page.locator("main")).toContainText("Schweizer Recht");
