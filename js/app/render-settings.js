@@ -335,7 +335,9 @@ function renderTrackFrom() {
     .map((month, i) => `<option value="${i === 0 ? "" : month}">${i === 0 ? t("Ab Lehrbeginn ({date})", { date: label(month) }) : label(month)}</option>`)
     .join("");
   const start = trackStart();
-  setValue("setTrackFrom", start === first ? "" : months.includes(start) ? start : "");
+  // Set directly: the options were just rebuilt, so the field must show the saved month
+  // even while it still has focus right after choosing (setValue skips focused fields).
+  $("setTrackFrom").value = start === first ? "" : months.includes(start) ? start : "";
 }
 
 function renderSettings() {
@@ -347,7 +349,7 @@ function renderSettings() {
   $("setAutoAccount").innerHTML = savingAccounts()
     .map((account) => `<option value="${account.id}">${escapeHTML(account.name)}</option>`)
     .join("");
-  setValue("setAutoAccount", state.autoAccount);
+  $("setAutoAccount").value = state.autoAccount; // options rebuilt above, see renderTrackFrom
   $("paydayNote").textContent = paydayText();
 
   buildYearSettings();

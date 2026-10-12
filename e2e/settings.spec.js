@@ -217,3 +217,17 @@ test("the pay month of an opening balance can be chosen", async ({ page, request
   expect(await page.evaluate((month) => spendingAccount().openings[month], previous)).toBe(12.5);
   expect(await page.evaluate((month) => monthSummary(month).opening, previous)).toBe(12.5);
 });
+
+test("„Tracken ab“ shows the chosen month right away and after a reload", async ({ page, request }) => {
+  await openApp(page, request, { setup: { trackFrom: "start" } });
+  await goTo(page, "settings");
+  const field = page.locator("#setTrackFrom");
+  const month = await field.locator("option").nth(1).getAttribute("value");
+  // Like a person: the field keeps focus after choosing
+  await field.focus();
+  await field.selectOption(month);
+  await expect(field).toHaveValue(month);
+  await page.reload();
+  await goTo(page, "settings");
+  await expect(page.locator("#setTrackFrom")).toHaveValue(month);
+});
