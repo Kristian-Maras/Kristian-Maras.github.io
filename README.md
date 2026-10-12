@@ -21,6 +21,9 @@ frontend/   (Repository Zh-Kristian.github.io)
 ├── 404.html                Seite „Gibt es nicht“ (GitHub Pages zeigt sie bei jeder unbekannten Adresse)
 ├── manifest.webmanifest    App auf dem Home-Bildschirm (Name, Icons, Farben)
 ├── version.json            Aktuelle Versionsnummer der Website (für den Hinweis „Neu laden“)
+├── robots.txt              Für Suchmaschinen: was gelesen werden darf, wo die Sitemap liegt
+├── sitemap.xml             Liste der öffentlichen Seiten für Google (Search Console)
+├── CNAME                   Eigene Domain finance-os.dev (von GitHub Pages angelegt, nicht löschen)
 ├── css/
 │   ├── shared/             für alle Seiten
 │   │   ├── base.css        Farben, Schrift, Buttons, Felder, Sidebar
@@ -164,10 +167,10 @@ dann `npm run test:e2e`.
 
 ## Neue Version veröffentlichen
 
-Alle CSS- und JS-Dateien werden mit einer Versionsnummer eingebunden, z. B. `css/shared/base.css?v=2026100846`,
+Alle CSS- und JS-Dateien werden mit einer Versionsnummer eingebunden, z. B. `css/shared/base.css?v=2026100847`,
 und dieselbe Nummer steht in `version.json`. Bei jeder Änderung an der Website die Nummer überall erhöhen:
-in IntelliJ **Strg+Shift+R** (Ersetzen in Dateien) → `2026100846` durch die neue Nummer ersetzen
-(z. B. Datum + laufende Nummer: `2026100846`), dann pushen.
+in IntelliJ **Strg+Shift+R** (Ersetzen in Dateien) → `2026100847` durch die neue Nummer ersetzen
+(z. B. Datum + laufende Nummer: `2026100847`), dann pushen.
 
 - Handys laden dadurch sicher die neuen Dateien statt der alten aus dem Zwischenspeicher.
 - Wer die Seite oder die App auf dem Home-Bildschirm gerade offen hat, bekommt innerhalb von

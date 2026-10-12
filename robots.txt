@@ -1,0 +1,5 @@
+# Search engines may read every public page; the app itself (app.html) carries "noindex".
+User-agent: *
+Allow: /
+
+Sitemap: https://finance-os.dev/sitemap.xml
